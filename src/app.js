@@ -7,8 +7,10 @@ import petsRouter from "./routes/pets.router.js";
 import adoptionsRouter from "./routes/adoption.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 
-// importo la seccion de mocking
+// importo la seccion de mocking y logger
 import mockingRouter from "./routes/mocking.router.js";
+import logger from "./utils/logger.js";
+import loggerRouter from "./routes/logger.router.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -24,7 +26,8 @@ app.use("/api/sessions", sessionsRouter);
 // agrego mocking y manejo de errores pedidos en consigna
 app.use("/api", mockingRouter);
 app.use((err, req, res, next) => {
-  console.error(err);
+  // middleware para manejo de errores
+  req.logger.error(error.message);
   res.status(500).json({
     status: "error",
     message: "Algo salió mal en el servidor",
@@ -32,5 +35,16 @@ app.use((err, req, res, next) => {
     cause: err.cause || "Error no manejado",
   });
 });
+// middleware para logger de peticiones
+app.use((req, res, next) => {
+  req.logger = logger;
+  logger.http(`${req.method} ${req.url}`);
+  next();
+});
 
-app.listen(PORT, () => console.log(`Escuchando en https://localhost:${PORT}`));
+// ruta de prueba para logger
+app.use("/logger", loggerRouter);
+
+app.listen(PORT, () =>
+  logger.info(`Servidor escuchando en https://localhost:${PORT}`)
+);
