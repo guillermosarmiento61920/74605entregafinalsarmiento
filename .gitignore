@@ -1,3 +1,5 @@
 node_modules
 /test
 # .env // comentado para tener los datos del ejercicio
+.env.dev
+.env.prod
