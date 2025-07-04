@@ -1,0 +1,62 @@
+{"level":"info","message":"Servidor escuchando en https://localhost:5000"}
+{"level":"info","message":"Servidor escuchando en https://localhost:5000"}
+{"level":"http","message":"GET /api/users"}
+{"level":"http","message":"GET /favicon.ico"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /"}
+{"level":"http","message":"GET /api/users"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api/pets"}
+{"level":"http","message":"GET /api/adoptions"}
+{"level":"http","message":"GET /api/esssions"}
+{"level":"http","message":"GET /api/sessions"}
+{"level":"http","message":"GET /api/sessions"}
+{"level":"http","message":"GET /api/"}
+{"level":"http","message":"GET /api"}
+{"level":"http","message":"GET /api/mockingpets"}
+{"level":"http","message":"GET /logger"}
+{"level":"http","message":"GET /logger/loggerTest"}
+{"level":"debug","message":"Este es un log de DEBUG"}
+{"level":"http","message":"Este es un log de HTTP"}
+{"level":"info","message":"Este es un log de INFO"}
+{"level":"warning","message":"Este es un log de WARNING"}
+{"level":"error","message":"Este es un log de ERROR"}
+{"level":"http","message":"GET /api-doc"}
+{"level":"http","message":"GET /api-doc/"}
+{"level":"http","message":"GET /api-doc/swagger-ui.css"}
+{"level":"http","message":"GET /api-doc/swagger-ui-bundle.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-standalone-preset.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-init.js"}
+{"level":"http","message":"GET /api-doc/favicon-32x32.png"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api/users"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api-doc/"}
+{"level":"http","message":"GET /api-doc/swagger-ui.css"}
+{"level":"http","message":"GET /api-doc/swagger-ui-bundle.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-standalone-preset.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-init.js"}
+{"level":"http","message":"GET /api-doc/favicon-32x32.png"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api-doc/"}
+{"level":"http","message":"GET /api-doc/swagger-ui.css"}
+{"level":"http","message":"GET /api-doc/swagger-ui-bundle.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-standalone-preset.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-init.js"}
+{"level":"http","message":"GET /api-doc/favicon-32x32.png"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api-doc/"}
+{"level":"http","message":"GET /api-doc/swagger-ui.css"}
+{"level":"http","message":"GET /api-doc/swagger-ui-bundle.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-standalone-preset.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-init.js"}
+{"level":"http","message":"GET /api-doc/favicon-32x32.png"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"http","message":"GET /api-doc/"}
+{"level":"http","message":"GET /api-doc/swagger-ui.css"}
+{"level":"http","message":"GET /api-doc/swagger-ui-bundle.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-standalone-preset.js"}
+{"level":"http","message":"GET /api-doc/swagger-ui-init.js"}
+{"level":"http","message":"GET /api-doc/favicon-32x32.png"}

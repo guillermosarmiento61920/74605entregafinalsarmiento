@@ -71,7 +71,10 @@ const login = async (req, res) => {
       code: ERROR_CODES.AUTH_ERROR.code,
     });
 
-  const token = jwt.sign(userDto, "tokenSecretJWT", { expiresIn: "1h" });
+  const userToken = UserDTO.getUserTokenFrom(user);
+  const token = jwt.sign(userToken, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   res
     .cookie("coderCookie", token, { maxAge: 3600000 })
     .send({ status: "success", message: "Logged in" });

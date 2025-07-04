@@ -13,8 +13,12 @@ import mockingRouter from "./routes/mocking.router.js";
 import logger from "./utils/logger.js";
 import loggerRouter from "./routes/logger.router.js";
 
+// importo la configuracion de swagger
+import { setupSwagger } from "./swagger.js";
+
 const envFile =
   process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev";
+
 dotenv.config({ path: envFile });
 
 const app = express();
@@ -32,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/users", usersRouter);
+// las siguientes 3 rutas tienen documentacion
 app.use("/api/pets", petsRouter);
 app.use("/api/adoptions", adoptionsRouter);
 app.use("/api/sessions", sessionsRouter);
@@ -51,6 +56,15 @@ app.use((err, req, res, next) => {
 // ruta de prueba para logger
 app.use("/logger", loggerRouter);
 
+setupSwagger(app);
+
+logger.debug("Mensaje DEBUG visible");
+logger.http("Mensaje HTTP visible");
+logger.info("Mensaje INFO visible");
+logger.warning("Mensaje WARNING visible");
+logger.error("Mensaje ERROR visible");
+logger.fatal("Mensaje FATAL visible");
+
 app.listen(PORT, () =>
-  logger.info(`Servidor escuchando en https://localhost:${PORT}`)
+  logger.info(`Servidor escuchando en http://localhost:${PORT}`)
 );

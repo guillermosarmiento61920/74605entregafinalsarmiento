@@ -42,6 +42,7 @@ const buildLogger = (env) => {
   } else {
     return winston.createLogger({
       levels: customLevels.levels,
+      level: "debug",
       transports: [
         new winston.transports.Console({
           level: "debug",
