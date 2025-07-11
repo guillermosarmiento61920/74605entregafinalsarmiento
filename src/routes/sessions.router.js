@@ -44,7 +44,22 @@ const router = Router();
 router.post("/register", sessionsController.register);
 router.post("/login", sessionsController.login);
 router.get("/current", sessionsController.current);
-router.get("/unprotectedLogin", sessionsController.unprotectedLogin);
+router.post("/unprotectedLogin", sessionsController.unprotectedLogin);
 router.get("/unprotectedCurrent", sessionsController.unprotectedCurrent);
+
+/**
+ * @swagger
+ * /api/sessions/logout:
+ *   get:
+ *     summary: Cerrar sesión del usuario
+ *     tags: [Sessions]
+ *     responses:
+ *       200:
+ *         description: Sesión cerrada exitosamente
+ *       401:
+ *         description: No hay sesión activa
+ */
+
+router.get("/logout", sessionsController.logout);
 
 export default router;

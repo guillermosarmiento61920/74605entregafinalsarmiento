@@ -68,3 +68,5 @@ logger.fatal("Mensaje FATAL visible");
 app.listen(PORT, () =>
   logger.info(`Servidor escuchando en http://localhost:${PORT}`)
 );
+
+export default app;

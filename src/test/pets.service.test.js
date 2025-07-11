@@ -1,4 +1,3 @@
-// src/test/pets.service.test.js
 import { expect } from "chai";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -6,11 +5,15 @@ import { petsService } from "../services/index.js";
 
 dotenv.config({ path: ".env.dev" });
 
-describe("Pet Service - Integración", () => {
+describe("Pet Service - Integración", function () {
+  this.timeout(10000);
   let createdPet;
 
   before(async () => {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
   });
 
   after(async () => {

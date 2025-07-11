@@ -1,4 +1,3 @@
-// src/test/pets.route.test.js
 import request from "supertest";
 import { expect } from "chai";
 import mongoose from "mongoose";
@@ -7,11 +6,15 @@ import app from "../app.js";
 
 dotenv.config({ path: ".env.dev" });
 
-describe("Pets Routes - Integración", () => {
+describe("Pets Routes - Integración", function () {
+  this.timeout(10000);
   let createdPetId;
 
   before(async () => {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
   });
 
   after(async () => {

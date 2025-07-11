@@ -1,14 +1,19 @@
 import { expect } from "chai";
-import { UserService } from "../services/index.js";
+import { usersService } from "../services/index.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.dev" });
-const secret = process.env.JWT_SECRET;
 
-describe("User Service - integracion", () => {
+describe("User Service - integracion", function () {
+  this.timeout(20000);
+  let createdUser;
+
   before(async () => {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
   });
 
   after(async () => {
@@ -19,7 +24,7 @@ describe("User Service - integracion", () => {
     const user = {
       first_name: "Test",
       last_name: "User",
-      email: "testuser@email.com",
+      email: `service${Date.now()}@test.com`,
       password: "123456",
     };
 

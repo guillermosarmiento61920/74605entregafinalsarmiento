@@ -44,46 +44,62 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password)
-    throw CustomError.createError({
-      name: "AuthError",
-      cause: "Faltan email o password en el request",
-      message: ERROR_CODES.AUTH_ERROR.message,
-      code: ERROR_CODES.AUTH_ERROR.code,
-    });
+  try {
+    const { email, password } = req.body;
+    if (!email || !password)
+      throw CustomError.createError({
+        name: "AuthError",
+        cause: "Faltan email o password en el request",
+        message: ERROR_CODES.AUTH_ERROR.message,
+        code: ERROR_CODES.AUTH_ERROR.code,
+      });
 
-  const user = await usersService.getUserByEmail(email);
-  if (!user)
-    throw CustomError.createError({
-      name: "AuthError",
-      cause: "Usuario no encontrado con ese email",
-      message: ERROR_CODES.AUTH_ERROR.message,
-      code: ERROR_CODES.AUTH_ERROR.code,
-    });
+    const user = await usersService.getUserByEmail(email);
+    if (!user)
+      throw CustomError.createError({
+        name: "AuthError",
+        cause: "Usuario no encontrado con ese email",
+        message: ERROR_CODES.AUTH_ERROR.message,
+        code: ERROR_CODES.AUTH_ERROR.code,
+      });
 
-  const isValidPassword = await passwordValidation(user, password);
-  if (!isValidPassword)
-    throw CustomError.createError({
-      name: "AuthError",
-      cause: "Password inválido",
-      message: ERROR_CODES.AUTH_ERROR.message,
-      code: ERROR_CODES.AUTH_ERROR.code,
-    });
+    const isValidPassword = await passwordValidation(user, password);
+    if (!isValidPassword)
+      throw CustomError.createError({
+        name: "AuthError",
+        cause: "Password inválido",
+        message: ERROR_CODES.AUTH_ERROR.message,
+        code: ERROR_CODES.AUTH_ERROR.code,
+      });
 
-  const userToken = UserDTO.getUserTokenFrom(user);
-  const token = jwt.sign(userToken, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  res
-    .cookie("coderCookie", token, { maxAge: 3600000 })
-    .send({ status: "success", message: "Logged in" });
+    const userToken = UserDTO.getUserTokenFrom(user);
+    await usersService.update(user._id, { last_connection: new Date() });
+    const token = jwt.sign(userToken, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res
+      .cookie("coderCookie", token, { maxAge: 3600000 })
+      .send({ status: "success", message: "Logged in" });
+  } catch (error) {
+    req.logger.error(error.message);
+    res.status(500).send({
+      status: "error",
+      message: error.message,
+      code: error.code,
+      cause: error.cause,
+    });
+  }
 };
 
 const current = async (req, res) => {
-  const cookie = req.cookies["coderCookie"];
-  const user = jwt.verify(cookie, "tokenSecretJWT");
-  if (user) return res.send({ status: "success", payload: user });
+  try {
+    const cookie = req.cookies["coderCookie"];
+    const user = jwt.verify(cookie, " process.env.JWT_SECRET");
+    if (user) return res.send({ status: "success", payload: user });
+    res.status(401).send({ status: "error", message: "unauthorized" });
+  } catch (error) {
+    res.status(401).send({ status: "error", message: "invalid token" });
+  }
 };
 
 const unprotectedLogin = async (req, res) => {
@@ -102,16 +118,56 @@ const unprotectedLogin = async (req, res) => {
     return res
       .status(400)
       .send({ status: "error", error: "Incorrect password" });
-  const token = jwt.sign(user, "tokenSecretJWT", { expiresIn: "1h" });
+  const userToken = {
+    _id: user._id,
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    role: user.role || "user",
+    documents: user.documents || [],
+    pets: user.pets || [],
+    last_connection: user.last_connection || null,
+  };
+  const token = jwt.sign(userToken, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   res
     .cookie("unprotectedCookie", token, { maxAge: 3600000 })
     .send({ status: "success", message: "Unprotected Logged in" });
 };
 const unprotectedCurrent = async (req, res) => {
   const cookie = req.cookies["unprotectedCookie"];
-  const user = jwt.verify(cookie, "tokenSecretJWT");
-  if (user) return res.send({ status: "success", payload: user });
+
+  try {
+    const user = jwt.verify(cookie, process.env.JWT_SECRET);
+
+    if (user) return res.send({ status: "success", payload: user });
+    res.status(401).send({ status: "error", message: "unauthorized" });
+  } catch (error) {
+    res.status(401).send({ status: "error", message: "token invalido" });
+  }
 };
+
+const logout = async (req, res) => {
+  const cookie = req.cookies["coderCookie"];
+  if (!cookie) {
+    return res
+      .status(401)
+      .send({ status: "error", message: "No hay sesión activa" });
+  }
+
+  const user = jwt.verify(cookie, process.env.JWT_SECRET);
+  if (user && user.email) {
+    const dbUser = await usersService.getUserByEmail(user.email);
+    if (dbUser) {
+      await usersService.update(dbUser._id, { last_connection: new Date() });
+    }
+  }
+
+  res.clearCookie("coderCookie");
+  res.send({ status: "success", message: "Sesión cerrada correctamente" });
+};
+
 export default {
   current,
   login,
@@ -119,4 +175,5 @@ export default {
   current,
   unprotectedLogin,
   unprotectedCurrent,
+  logout,
 };
