@@ -5,6 +5,7 @@ FROM node:18
 WORKDIR /app
 
 # Copia los archivos del proyecto
+COPY package*.json ./
 COPY . .
 
 # Instala las dependencias

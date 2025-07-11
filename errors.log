@@ -66,3 +66,9 @@
 {"level":"warning","message":"Mensaje WARNING visible"}
 {"level":"error","message":"Mensaje ERROR visible"}
 {"level":"info","message":"Servidor escuchando en http://localhost:5000"}
+{"level":"debug","message":"Mensaje DEBUG visible"}
+{"level":"http","message":"Mensaje HTTP visible"}
+{"level":"info","message":"Mensaje INFO visible"}
+{"level":"warning","message":"Mensaje WARNING visible"}
+{"level":"error","message":"Mensaje ERROR visible"}
+{"level":"info","message":"Servidor escuchando en http://localhost:5000"}
